@@ -33,7 +33,7 @@ class GoogleSharedStatus(BasePlugin):
         self.last_status = None
         self.last_show = None
         self.last_invisible = None
-        self.last_status_lists = []
+        self.last_status_lists = None
 
         register_stanza_plugin(Iq, SharedStatus)
 
@@ -83,7 +83,7 @@ class GoogleSharedStatus(BasePlugin):
         if status_lists is None:
             status_lists = self.last_status_lists or {}
 
-        for show_mode, statuses in status_lists:
+        for show_mode, statuses in status_lists.items():
             status_list = iq['shared_status'].add_list(show_mode)
             for status in statuses:
                 status_list.add_status(status)
@@ -112,12 +112,8 @@ class GoogleSharedStatus(BasePlugin):
         for status_list in iq['shared_status']:
             statuses = []
             for status in status_list:
-                print status.text
-                #statuses.append(status.text)
+                statuses.append(status.xml.text)
             self.last_status_lists[status_list['show']] = statuses
-
-        print "Last status: {}".format(self.last_status)
-        print "Last show state: {}".format(self.last_show)
 
         iq.reply().send()
         self.xmpp.event('google_shared_status_updated')

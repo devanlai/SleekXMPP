@@ -30,7 +30,7 @@ class StatusList(ElementBase):
                 raise ValueError
 
         status = Status()
-        status.text = contents
+        status.xml.text = contents
         self.append(status)
         return status
 
