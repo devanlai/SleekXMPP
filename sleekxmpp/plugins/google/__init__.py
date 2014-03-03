@@ -12,6 +12,7 @@ from sleekxmpp.plugins.google.gmail import Gmail
 from sleekxmpp.plugins.google.auth import GoogleAuth
 from sleekxmpp.plugins.google.settings import GoogleSettings
 from sleekxmpp.plugins.google.nosave import GoogleNoSave
+from sleekxmpp.plugins.google.status import GoogleSharedStatus
 
 
 class Google(BasePlugin):
@@ -28,11 +29,12 @@ class Google(BasePlugin):
         'gmail',
         'google_settings',
         'google_nosave',
-        'google_auth'
+        'google_auth',
+        'google_shared_status'
     ])
 
     def __getitem__(self, attr):
-        if attr in ('settings', 'nosave', 'auth'):
+        if attr in ('settings', 'nosave', 'auth', 'shared_status'):
             return self.xmpp['google_%s' % attr]
         elif attr == 'gmail':
             return self.xmpp['gmail']
@@ -44,4 +46,5 @@ register_plugin(Gmail)
 register_plugin(GoogleAuth)
 register_plugin(GoogleSettings)
 register_plugin(GoogleNoSave)
+register_plugin(GoogleSharedStatus)
 register_plugin(Google)
